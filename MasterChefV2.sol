@@ -420,7 +420,8 @@ contract MasterChefV2 is BoringOwnable, BoringBatchable {
     }
 
     /// @notice Address of MCV1 contract.
-    IMasterChef public immutable MASTER_CHEF;
+    // IMasterChef public immutable MASTER_CHEF; 没有v1合约，直接从v2合约开始
+
     /// @notice Address of SUSHI contract.
     IERC20 public immutable SUSHI;
     /// @notice The index of MCV2 master pool in MCV1.
