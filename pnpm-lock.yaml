@@ -14,6 +14,7 @@ specifiers:
   '@types/mocha': '>=9.1.0'
   '@types/node': '>=12.0.0'
   chai: ^4.2.0
+  dotenv: ^16.0.3
   ethers: ^5.4.7
   hardhat: ^2.12.7
   hardhat-gas-reporter: ^1.0.8
@@ -36,6 +37,7 @@ devDependencies:
   '@types/mocha': 10.0.1
   '@types/node': 18.14.2
   chai: 4.3.7
+  dotenv: 16.0.3
   ethers: 5.7.2
   hardhat: 2.12.7_6qtx7vkbdhwvdm4crzlegk4mvi
   hardhat-gas-reporter: 1.0.9_hardhat@2.12.7
@@ -1847,6 +1849,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-type: 4.0.0
+    dev: true
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /ecc-jsbn/0.1.2:
