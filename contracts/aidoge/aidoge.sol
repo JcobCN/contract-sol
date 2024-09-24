@@ -1722,6 +1722,18 @@ contract DistributionPool is OwnableUpgradeable {
         return supplyPerAddress;
     }
 
+    /**
+     * 
+     * @param nonce 随机数 随便填 
+     * @param signature 签名，用准备好的公钥进行签名 就是signer 	0x926D869b6e84cba1Aa3de58aF0f3ad6495DDe403 需要提前设置
+     * @param addr 地址，用于验证是否有资格的地址
+     */
+    function canClaim(uint128 nonce, bytes calldata signature, address addr) public view returns (bool){
+        bytes32 message = keccak256(abi.encode(address(0x7c20acfd25467dE0B92d03E4C4d304f18B8408E1), addr, nonce));
+         _signers.requireValidSignature(message, signature);
+         return true;
+    }
+
     function claim(uint128 nonce, bytes calldata signature, address referrer) public {
         require(_usedNonce[nonce] == false, "nonce already used");
         require(_claimedUser[_msgSender()] == false, "already claimed");
