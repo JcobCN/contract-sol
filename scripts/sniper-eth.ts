@@ -21,12 +21,16 @@ function run(){
           gasPrice = _gasPrice.mul(12).div(10)
           fee = gasLimit.mul(gasPrice)
           console.log("gasPrice,fee:", ethers.utils.formatUnits(gasPrice, "gwei"), ethers.utils.formatUnits(fee, "gwei"))
+        }).catch(e=>{
+          // console.log()
         })
 
       alice.getBalance().then(_balance=>{
         balance = _balance
         transferValue = balance.sub(fee)
         console.log("balance,transferValue:", ethers.utils.formatUnits(balance, "gwei"), ethers.utils.formatUnits(transferValue, "gwei"))
+      }).catch(e=>{
+
       })
 
       if(transferValue){
@@ -48,8 +52,9 @@ function run(){
     }
 
     })
-  
-
+    setImmediate(run)
 }
 
-setInterval(run, 100)
+// setInterval(run, 100)
+// process.nextTick(run)
+setImmediate(run)
