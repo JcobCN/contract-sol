@@ -31,4 +31,8 @@ contract Lock {
 
         owner.transfer(address(this).balance);
     }
+
+     function add() public pure returns(uint) {
+      return 0xfffffffffffffffffffffffffffffffff*0xfffffffffffffffffffffffff;
+     }
 }
