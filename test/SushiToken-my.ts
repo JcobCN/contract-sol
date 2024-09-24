@@ -7,8 +7,7 @@ describe("SUSHI Token", function () {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
   // and reset Hardhat Network to that snapshot in every test.
-  async function deployOneYearLockFixture() {
-    const ONE_GWEI = 1_000_000_000;
+  async function deploySushiFixture() {
 
     // Contracts are deployed using the first signer/account by default
     const [owner, bob, carol] = await ethers.getSigners();
@@ -21,7 +20,7 @@ describe("SUSHI Token", function () {
 
   describe("Deployment", function () {
     it("Should be get right owner, symbol, name and decimals", async function () {
-      const { sushi, owner } = await loadFixture(deployOneYearLockFixture);
+      const { sushi, owner } = await loadFixture(deploySushiFixture);
 
       expect(await sushi.symbol()).to.equal("SUSHI");
       expect(await sushi.name()).to.equal("SushiToken");
@@ -32,8 +31,8 @@ describe("SUSHI Token", function () {
       console.log()
     });
 
-    it("Allow mint", async function() {
-      const { sushi, owner, bob, carol } = await loadFixture(deployOneYearLockFixture);
+    it("Only allow owner mint", async function() {
+      const { sushi, owner, bob, carol } = await loadFixture(deploySushiFixture);
 
       await sushi.mint(owner.address, 100)
       await sushi.mint(bob.address, 100)
@@ -41,7 +40,7 @@ describe("SUSHI Token", function () {
     })
 
     it("Allow transfer", async function() {
-      const { sushi, owner, bob, carol } = await loadFixture(deployOneYearLockFixture);
+      const { sushi, owner, bob, carol } = await loadFixture(deploySushiFixture);
       
       await sushi.mint(owner.address, 100)
       await sushi.transfer(carol.address, 100)
@@ -50,7 +49,7 @@ describe("SUSHI Token", function () {
     })
 
     it("Allow trasferFrom", async() => {
-      const { sushi, owner, bob, carol } = await loadFixture(deployOneYearLockFixture);
+      const { sushi, owner, bob, carol } = await loadFixture(deploySushiFixture);
       
       await sushi.mint(owner.address, 100)
       await sushi.approve(bob.address, 100)
@@ -58,7 +57,20 @@ describe("SUSHI Token", function () {
 
       expect(await sushi.balanceOf(carol.address)).to.equal(100);
       expect(await sushi.balanceOf(owner.address)).to.equal(0);
+    })
 
+    it("Should supply token transfer properly", async () => {
+      const { sushi, owner, bob, carol } = await loadFixture(deploySushiFixture)
+      
+      await sushi.mint(owner.address, 100)
+      await sushi.mint(bob.address, 1000)
+      await sushi.transfer(carol.address, 10)
+      await sushi.connect(bob).transfer(carol.address, 100)
+
+      expect(await sushi.balanceOf(owner.address)).to.equal(90)
+      expect(await sushi.balanceOf(carol.address)).to.equal(110)
+      expect(await sushi.balanceOf(bob.address)).to.equal(900)
+      expect(await sushi.totalSupply()).to.equal(1100)
     })
   });
 
